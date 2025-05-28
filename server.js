@@ -23,8 +23,12 @@ function getFromHarryPotter() {
             id: index,
             name: data[index].name,
             species: data[index].species,
-            house: data[index].house || 'Nessuna casata',
-            image: data[index].image || 'https://us.123rf.com/450wm/tatkrav/tatkrav2201/tatkrav220100080/180401676-icona-della-siluetta-della-persona-forma-nera-personaggio-anonimo-profilo-utente-design-semplice.jpg?ver=6://www.google.com/url?sa=i&url=https%3A%2F%2Fit.123rf.com%2Fphoto_75444212_simbolo-del-web-dell-utente-simbolo-semplice-icona-sulla-priorit%25C3%25A0-bassa.html&psig=AOvVaw0JVn1XJyuyT0l5vtFb0cCd&ust=1748521100038000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCPjzye-Sxo0DFQAAAAAdAAAAABAE'
+            house: data[index].house,
+            image: data[index].image,
+            gender: data[index].gender,
+            eyeColour: data[index].eyeColour,
+            hairColour: data[index].hairColour,
+            actor: data[index].actor
           });
         }
       }
@@ -60,8 +64,8 @@ const User = mongoose.model('User', userSchema, 'users');
 
 const albumSchema = new mongoose.Schema({
   owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-  mainAlbum: [{ id: Number, name: String, house: String, image: String, species: String, gender: String, dateOfBirth: Date, eyeColour: String, hairColour: String, actor: String, alternate_name: [String] }],
-  duplicatesAlbum: [{ id: Number, name: String, house: String, image: String, species: String, gender: String, dateOfBirth: Date, eyeColour: String, hairColour: String, actor: String, alternate_name: [String] }]
+  mainAlbum: [{ id: Number, name: String, house: String, image: String, species: String, gender: String, eyeColour: String, hairColour: String, actor: String}],
+  duplicatesAlbum: [{ id: Number, name: String, house: String, image: String, species: String, gender: String, eyeColour: String, hairColour: String, actor: String}]
 });
 const Album = mongoose.model('Album', albumSchema, 'albums');
 
@@ -352,6 +356,27 @@ app.post('/api/scambia', async (req, res) => {
   }
 });
 
+app.get('/character/:id', async (req, res) => {
+  const characterId = parseInt(req.params.id);
 
+  try {
+    const album = await Album.findOne({
+      $or: [
+        { 'mainAlbum.id': characterId },
+        { 'duplicatesAlbum.id': characterId }
+      ]
+    });
+
+    if (!album) return res.status(404).json({ message: 'Personaggio non trovato' });
+
+    // Cerca nella mainAlbum o duplicatesAlbum
+    const character = album.mainAlbum.find(c => c.id === characterId) || 
+                      album.duplicatesAlbum.find(c => c.id === characterId);
+
+    res.json(character);
+  } catch (err) {
+    res.status(500).json({ message: 'Errore server', error: err });
+  }
+});
 
 app.listen(port, () => console.log(`Server in ascolto su http://localhost:${port}`));
