@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./assets/dashboard.css">
+    <title>Gestione Credito</title>
+</head>
+<body>
+    <div class="dashboard-container">
+        <h2>Gestione del Credito</h2>
+        <div class="credit-management">
+            <!-- Sezione Acquisto Crediti -->
+            <div class="credit-box">
+                <h3>Acquista Crediti</h3>
+                <button onclick="buyCredits(1)">1 Credito - €1</button>
+                <button onclick="buyCredits(2)">2 Crediti - €2</button>
+                <button onclick="buyCredits(5)">5 Crediti - €5</button>
+            </div>
+        </div>
+        <p id="feedback" style="color: #ffcc00; text-align: center; margin-top: 20px;"></p>
+        <a href="./dashboard.html">Torna indietro</a>
+    </div>
+    <script src="./assets/credit.js"></script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modifica i tuoi dati</title>
+    <link rel="stylesheet" href="./assets/style.css">
+</head>
+<body>
+    <div class="edit-form">
+        <h1>Modifica i tuoi dati</h1>
+        <form id="editForm">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+            <br>
+            <label for="password">Nuova Password:</label>
+            <input type="password" id="password" name="password" required>
+            <br>
+            <label for="email">Email:</label>
+            <input type="text" id="email" name="email">
+            <br>
+            <label for="supereore_p">Supereroe preferito:</label>
+            <input type="text" id="supereroe_p" name="supereroe_p">
+            <br>
+            <button type="submit">Aggiorna</button>
+        </form>
+    </div>
+
+    <script>
+        // Carica i dati dell'utente dal server
+        document.addEventListener('DOMContentLoaded', async () => {
+            const response = await fetch('/getUser');
+            if (response.ok) {
+                const user = await response.json();
+                document.getElementById('username').value = user.username;
+                document.getElementById('email').value = user.email;
+                //gestire la questione della password
+                //chiedere se vuole modificare la password se si, si cambia. altrimenti il valore di password nuova si lascia vuoto
+                //supereore preferito non si vede -- verificare piu' tardi
+                document.getElementById('supereore_p').value = user.supereore_p;
+            } else {
+                alert("Errore durante il recupero dei dati dell'utente.");
+            }
+        });
+
+        // Aggiorna i dati dell'utente
+        document.getElementById('editForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const email = document.getElementById('email').value;
+            const supereore_p = document.getElementById('supereroe_p').value;
+
+            const response = await fetch('/update', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password, email, supereore_p})
+            });
+
+            if (response.ok) {
+                alert("Dati aggiornati con successo.");
+                window.location.href = '/dashboard.html';
+            } else {
+                alert("Errore durante l'aggiornamento dei dati.");
+            }
+        });
+    </script>
+</body>
+</html>

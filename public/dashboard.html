@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./assets/dashboard.css">
+    <title>Dashboard</title>
+</head>
+<body>
+    <!-- Barra di intestazione -->
+    <div class="header-bar">
+        <h1>Dashboard</h1>
+        <div class="credit-box">
+            <button onclick="window.location.href='./credit.html'">+</button>
+            <p>Crediti: <span id="credit-value">${credits}</span></p>
+        </div>
+    </div>
+
+    <!-- Contenuto principale della dashboard -->
+    <div class="dashboard">
+        <h1>Benvenuto nella tua Dashboard!</h1>
+        <button onclick="window.location.href='./edit'">Modifica Profilo</button>
+        <button onclick="deleteAccount()">Elimina Account</button>
+        <a href="./album.html">album</a>
+    </div>
+
+    <div class="container text-center mt-5">
+        <div class="d-flex justify-content-center gap-4 mt-4">
+          <!-- Pulsante Album Principale -->
+          <button id="viewMainAlbum" class="btn btn-primary">Visualizza Album Principale</button>
+          <!-- Pulsante Album Duplicati -->
+          <button id="viewDuplicatesAlbum" class="btn btn-secondary">Visualizza Album Duplicati</button>
+        </div>
+      </div>
+
+    <script>
+        // Funzione per eliminare l'account
+        function deleteAccount() {
+            if (confirm("Sei sicuro di voler eliminare il tuo account?")) {
+                fetch('/delete', {
+                    method: 'DELETE',
+                }).then(response => {
+                    if (response.ok) {
+                        alert('Account eliminato con successo.');
+                        window.location.href = './register.html';
+                    } else {
+                        alert('Errore durante l\'eliminazione dell\'account.');
+                    }
+                });
+            }
+        }
+
+        // Eventuale caricamento crediti dinamico (esempio)
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('/get-credits')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('credit-value').textContent = data.credits;
+                })
+                .catch(error => console.error('Errore durante il caricamento dei crediti:', error));
+        });
+
+        // Gestione dei click sui pulsanti
+        document.getElementById('viewMainAlbum').addEventListener('click', () => {
+            window.location.href = '/album-principale';
+        });
+
+        document.getElementById('viewDuplicatesAlbum').addEventListener('click', () => {
+            window.location.href = '/album-duplicati';
+        });
+    </script>
+</body>
+</html>
