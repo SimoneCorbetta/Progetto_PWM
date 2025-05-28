@@ -1,0 +1,102 @@
+/* Imposta uno sfondo eroico */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(to bottom, #1e1e2f, #3b3b54);
+    color: #ffffff;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column; /* Per mantenere il titolo sopra al form */
+}
+
+/* Contenitore principale per centrare i form */
+form {
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 10px;
+    padding: 20px;
+    width: 400px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.5);
+    text-align: center;
+}
+
+/* Titolo centrato */
+h1 {
+    text-align: center;
+    color: #ffcc00;
+    text-shadow: 2px 2px 5px rgba(255, 255, 0, 0.7);
+    margin-bottom: 20px;
+}
+
+/* Etichette */
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #ffcc00;
+}
+
+/* Input: lunghezza ridotta e centrata */
+input[type="text"],
+input[type="password"] {
+    width: 90%;
+    max-width: 300px;
+    padding: 10px;
+    margin: 10px auto 15px auto;
+    border: none;
+    border-radius: 5px;
+    outline: none;
+    background: #2e2e3f;
+    color: #ffffff;
+    font-size: 14px;
+    display: block;
+}
+
+/* Bottone */
+button {
+    width: 90%;
+    max-width: 300px;
+    padding: 10px;
+    background-color: #ff6600;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #ffffff;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: background 0.3s;
+    display: block;
+    margin: 0 auto;
+}
+
+button:hover {
+    background-color: #e65c00;
+}
+
+/* Per dare un tocco in più al layout */
+form::before {
+    content: "⚡";
+    display: block;
+    font-size: 50px;
+    text-align: center;
+    color: #ffcc00;
+    margin-bottom: 10px;
+}
+
+/* Stile per l'ancora finale */
+a {
+    display: block;
+    text-align: center;
+    color: #ffcc00;
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 15px;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}

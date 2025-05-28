@@ -1,5 +1,3 @@
-// server.js aggiornato per usare API di Harry Potter al posto di Marvel
-
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -25,8 +23,8 @@ function getFromHarryPotter() {
             id: index,
             name: data[index].name,
             species: data[index].species,
-            house: data[index].house || 'No house',
-            image: data[index].imag
+            house: data[index].house || 'Nessuna casata',
+            image: data[index].image || 'https://us.123rf.com/450wm/tatkrav/tatkrav2201/tatkrav220100080/180401676-icona-della-siluetta-della-persona-forma-nera-personaggio-anonimo-profilo-utente-design-semplice.jpg?ver=6://www.google.com/url?sa=i&url=https%3A%2F%2Fit.123rf.com%2Fphoto_75444212_simbolo-del-web-dell-utente-simbolo-semplice-icona-sulla-priorit%25C3%25A0-bassa.html&psig=AOvVaw0JVn1XJyuyT0l5vtFb0cCd&ust=1748521100038000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCPjzye-Sxo0DFQAAAAAdAAAAABAE'
           });
         }
       }
@@ -50,7 +48,11 @@ const userSchema = new mongoose.Schema({
   username: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   email: { type: String },
-  supereroe_p: { type: String },
+  house_p: {
+    type: String,
+    enum: ['Gryffindor', 'Slytherin', 'Hufflepuff', 'Ravenclaw'],
+    required: true
+  },
   credits: { type: Number, default: 0 }
 });
 
@@ -58,8 +60,8 @@ const User = mongoose.model('User', userSchema, 'users');
 
 const albumSchema = new mongoose.Schema({
   owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-  mainAlbum: [{ id: Number, name: String, house: String, image: String }],
-  duplicatesAlbum: [{ id: Number, name: String, house: String, image: String }]
+  mainAlbum: [{ id: Number, name: String, house: String, image: String, species: String, gender: String, dateOfBirth: Date, eyeColour: String, hairColour: String, actor: String, alternate_name: [String] }],
+  duplicatesAlbum: [{ id: Number, name: String, house: String, image: String, species: String, gender: String, dateOfBirth: Date, eyeColour: String, hairColour: String, actor: String, alternate_name: [String] }]
 });
 const Album = mongoose.model('Album', albumSchema, 'albums');
 
@@ -85,10 +87,10 @@ app.get('/getUser', async (req, res) => {
 });
 
 app.post('/register', async (req, res) => {
-  const { username, password, email, supereroe_p } = req.body;
+  const { username, password, email, house_p } = req.body;
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = new User({ username, password: hashedPassword, email, supereroe_p });
+    const newUser = new User({ username, password: hashedPassword, email, house_p });
     await newUser.save();
     currentUser = username;
     res.redirect('/dashboard');
@@ -124,10 +126,10 @@ app.get('/edit', (req, res) => {
 
 app.put('/update', async (req, res) => {
   if (!currentUser) return res.status(401).send('Non autorizzato');
-  const { username, password, email, supereroe_p } = req.body;
+  const { username, password, email, house_p } = req.body;
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
-    await User.updateOne({ username: currentUser }, { username, password: hashedPassword, email, supereroe_p });
+    await User.updateOne({ username: currentUser }, { username, password: hashedPassword, email, house_p });
     currentUser = username;
     res.send('Utente aggiornato con successo');
   } catch (err) {
