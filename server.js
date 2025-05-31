@@ -69,6 +69,19 @@ const albumSchema = new mongoose.Schema({
 });
 const Album = mongoose.model('Album', albumSchema, 'albums');
 
+
+const messaggioSchema = new mongoose.Schema({
+  mittente: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  destinatario: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  tipo: { type: String, enum: ['scambio', 'testo'], required: true }, // per messaggi futuri
+  testo: { type: String, default: ''},
+  cartaOfferta: Object, // struttura della carta offerta
+  cartaRichiesta: Object, // struttura della carta richiesta
+  stato: { type: String, enum: ['in attesa', 'accettato', 'rifiutato', 'inviato'], default: 'in attesa' },
+  data: { type: Date, default: Date.now }
+});
+const Messaggi = mongoose.model('Messaggi', messaggioSchema, 'ExchangeRequests');
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
@@ -268,6 +281,23 @@ app.post('/api/album/add', async (req, res) => {
     res.status(500).json({ error: 'Errore del server' });
   }
 });
+//rotta ripetuta eliminare successivamente
+app.get('/album/:userId/main', async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    const album = await Album.findOne({ owner: userId });
+
+    if (!album) {
+      return res.status(404).json({ error: 'Album non trovato per questo utente.' });
+    }
+
+    res.status(200).json({ mainAlbum: album.mainAlbum });
+  } catch (err) {
+    console.error('Errore nel recuperare il mainAlbum:', err);
+    res.status(500).json({ error: 'Errore del server.' });
+  }
+});
 
 
 // Rotta per l'Album Principale
@@ -310,13 +340,22 @@ app.get('/scambi/:idUtente/altre-doppioni', async (req, res) => {
   }
 });
 
-
-app.post('/api/scambia', async (req, res) => {
-  const { userAId, userBId, cardA, cardB } = req.body;
-
+app.post('/api/scambio/:id', async (req, res) => {
   try {
-    const albumA = await Album.findOne({ owner: userAId });
-    const albumB = await Album.findOne({ owner: userBId });
+    const richiesta = await Messaggi.findById(req.params.id)
+      .populate('mittente')
+      .populate('destinatario')
+      .populate('cartaOfferta')
+      .populate('cartaRichiesta');
+
+    if (!richiesta || richiesta.stato !== 'accettato') {
+      return res.status(400).json({ error: 'Scambio non valido o non accettato.' });
+    }
+
+    const userA = richiesta.mittente;
+    const userB = richiesta.destinatario;
+    const albumA = await Album.findOne({ owner: userA.id });
+    const albumB = await Album.findOne({ owner: userB.id });
 
     if (!albumA || !albumB) {
       return res.status(404).json({ error: 'Uno degli album non esiste' });
@@ -378,5 +417,94 @@ app.get('/character/:id', async (req, res) => {
     res.status(500).json({ message: 'Errore server', error: err });
   }
 });
+
+app.get('/messaggi', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'messaggi.html'));
+});
+
+//rotte per lo scambio dei messaggi per lo scambio
+app.post('/api/richiesta-scambio', async (req, res) => {
+  const { userAId, userBId, cardA, cardB } = req.body;
+
+  try {
+    const nuovoMessaggio = new Messaggi({
+      mittente: userAId,
+      destinatario: userBId,
+      tipo: 'scambio',
+      testo: '',
+      cartaOfferta: cardA,
+      cartaRichiesta: cardB,
+      stato: 'in attesa'
+    });
+
+    await nuovoMessaggio.save();
+
+    res.status(200).json({ message: 'Richiesta di scambio inviata con successo!' });
+  } catch (err) {
+    console.error('Errore durante la creazione della richiesta di scambio:', err);
+    res.status(500).json({ error: 'Errore del server nel salvataggio della richiesta' });
+  }
+});
+
+
+
+app.get('/api/richieste/:userId', async (req, res) => {
+  try {
+    if(Messaggi.tipo == 'scambio'){
+      richieste = await Messaggi.find({ destinatario: req.params.userId, stato: 'in attesa' })
+        .populate('mittente', 'username');
+    }else{
+      richieste = await Messaggi.find({ destinatario: req.params.userId, stato: 'rifiutato' || 'accettato' });
+    }
+
+    res.status(200).json(richieste);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Errore durante il recupero delle richieste.' });
+  }
+});
+
+app.post('/api/richiesta/:id/rispondi', async (req, res) => {
+  const { accettato } = req.body;
+
+  try {
+    const richiesta = await Messaggi.findById(req.params.id)
+      .populate('mittente')
+      .populate('destinatario')
+      .populate('cartaOfferta')
+      .populate('cartaRichiesta');
+
+    if (!richiesta) {
+      return res.status(404).json({ error: 'Richiesta non trovata' });
+    }
+
+    const stato = accettato ? 'accettato' : 'rifiutato';
+    const testo = `Ciao, ho ${stato} la tua proposta di scambio del ${new Date().toLocaleString('it-IT')}.`;
+
+    // ⚠️ Salviamo i riferimenti originali prima di sovrascrivere
+    const originaleMittente = richiesta.mittente;
+    const originaleDestinatario = richiesta.destinatario;
+
+    // Trasformazione messaggio
+    richiesta.tipo = 'testo';
+    richiesta.testo = testo;
+    richiesta.stato = stato;
+    richiesta.cartaOffera = undefined;
+    richiesta.cartaRichiesta = undefined;
+
+    // ⚡ Inverti mittente/destinatario
+    richiesta.mittente = originaleDestinatario._id;
+    richiesta.destinatario = originaleMittente._id;
+
+    await richiesta.save();
+
+    res.status(200).json({ message: `Richiesta ${stato}. Messaggio trasformato e inviato al richiedente.` });
+  } catch (err) {
+    console.error('Errore nella gestione della risposta:', err);
+    res.status(500).json({ error: 'Errore durante la risposta alla richiesta.' });
+  }
+});
+
+
 
 app.listen(port, () => console.log(`Server in ascolto su http://localhost:${port}`));

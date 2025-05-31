@@ -86,7 +86,6 @@ function createCharacterCard(character, showAddButton = false, showInfoButton = 
               <p><strong>Colore occhi:</strong> ${character.eyeColour || 'Dato sconosciuto'}</p>
               <p><strong>Colore capelli:</strong> ${character.hairColour || 'Dato sconosciuto'}</p>
               <p><strong>Attore:</strong> ${character.actor || 'Dato sconosciuto'}</p>
-              <p><strong>Nomi alternativi:</strong> ${character.alternate_names.join(', ') || 'Nessun sopranome'}</p>
             </div>
           </div>
         </div>
