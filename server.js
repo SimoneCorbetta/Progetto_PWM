@@ -352,29 +352,16 @@ app.post('/api/scambio/:id', async (req, res) => {
       return res.status(400).json({ error: 'Scambio non valido o non accettato.' });
     }
 
-    const userA = richiesta.mittente;
-    const userB = richiesta.destinatario;
+    const userA = richiesta.destinatario;
+    const userB = richiesta.mittente;
+    const cardA = richiesta.cartaOfferta;
+    const cardB = richiesta.cartaRichiesta;
+    
     const albumA = await Album.findOne({ owner: userA.id });
     const albumB = await Album.findOne({ owner: userB.id });
 
     if (!albumA || !albumB) {
       return res.status(404).json({ error: 'Uno degli album non esiste' });
-    }
-
-    // Verifica che le carte siano effettivamente nei rispettivi album dei doppioni
-    const hasCardAinDuplicates = albumA.duplicatesAlbum.some(c => c.id === cardA.id);
-    const hasCardBinDuplicates = albumB.duplicatesAlbum.some(c => c.id === cardB.id);
-
-    if (!hasCardAinDuplicates || !hasCardBinDuplicates) {
-      return res.status(400).json({ error: 'Una delle carte non è nei doppioni' });
-    }
-
-    // Verifica che la carta A non sia già nel mainAlbum di B e viceversa
-    const cardAInBMain = albumB.mainAlbum.some(c => c.id === cardA.id);
-    const cardBInAMain = albumA.mainAlbum.some(c => c.id === cardB.id);
-
-    if (cardAInBMain || cardBInAMain) {
-      return res.status(400).json({ error: 'Una delle carte è già nel mainAlbum del ricevente' });
     }
 
     // Rimuovi carte dai doppioni
@@ -450,12 +437,8 @@ app.post('/api/richiesta-scambio', async (req, res) => {
 
 app.get('/api/richieste/:userId', async (req, res) => {
   try {
-    if(Messaggi.tipo == 'scambio'){
-      richieste = await Messaggi.find({ destinatario: req.params.userId, stato: 'in attesa' })
-        .populate('mittente', 'username');
-    }else{
-      richieste = await Messaggi.find({ destinatario: req.params.userId, stato: 'rifiutato' || 'accettato' });
-    }
+    const richieste = await Messaggi.find({ destinatario: req.params.userId})
+      .populate('mittente', 'username');
 
     res.status(200).json(richieste);
   } catch (err) {
@@ -482,6 +465,8 @@ app.post('/api/richiesta/:id/rispondi', async (req, res) => {
     const testo = `Ciao, ho ${stato} la tua proposta di scambio del ${new Date().toLocaleString('it-IT')}.`;
 
     // ⚠️ Salviamo i riferimenti originali prima di sovrascrivere
+    const original_cardRichiesta = richiesta.cartaRichiesta;
+    const original_cardOfferta = richiesta.cartaOfferta;
     const originaleMittente = richiesta.mittente;
     const originaleDestinatario = richiesta.destinatario;
 
@@ -489,8 +474,8 @@ app.post('/api/richiesta/:id/rispondi', async (req, res) => {
     richiesta.tipo = 'testo';
     richiesta.testo = testo;
     richiesta.stato = stato;
-    richiesta.cartaOffera = undefined;
-    richiesta.cartaRichiesta = undefined;
+    richiesta.cartaOfferta = original_cardOfferta;
+    richiesta.cartaRichiesta = original_cardRichiesta;
 
     // ⚡ Inverti mittente/destinatario
     richiesta.mittente = originaleDestinatario._id;
@@ -505,6 +490,19 @@ app.post('/api/richiesta/:id/rispondi', async (req, res) => {
   }
 });
 
+app.post('/verifica-possesso', async (req, res) => {
+  try {
+    const { userId, cartaOffertaId } = req.body;
 
+    const album = await Album.findOne({ owner: userId });
+
+    const possiede = album.mainAlbum.some(carta => carta.id === cartaOffertaId);
+
+    res.json({ possiedeCarta: possiede });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Errore del server' });
+  }
+});
 
 app.listen(port, () => console.log(`Server in ascolto su http://localhost:${port}`));

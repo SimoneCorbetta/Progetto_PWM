@@ -18,9 +18,26 @@ document.addEventListener('DOMContentLoaded', async () => {
           return;
         }
 
-        richieste.forEach(richiesta => {
+        richieste.forEach(async richiesta => {
         const div = document.createElement('div');
         div.classList.add('richiesta');
+        
+        const response = await fetch('/verifica-possesso', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            userId: userId,
+            cartaOffertaId: richiesta.cartaOfferta.id
+          })
+        });
+
+        const data = await response.json();
+
+        const nomeCartaOfferta = data.possiedeCarta 
+          ? `${richiesta.cartaOfferta.name} *` 
+          : richiesta.cartaOfferta.name;
 
         // Mostra lo stato aggiornato come messaggio
         if (richiesta.stato !== 'in attesa') {
@@ -31,12 +48,12 @@ document.addEventListener('DOMContentLoaded', async () => {
           // Visualizzazione normale per richieste in attesa
           div.innerHTML = `
             <p><strong>${richiesta.mittente.username}</strong> ti offre 
-              <span style="color: green;"><b>${richiesta.cartaOffera?.name}</b></span> 
+              <span style="color: green;"><b>${nomeCartaOfferta}</b></span> 
               in cambio di 
-              <span style="color: blue;"><b>${richiesta.cartaRichiesta?.name}</b></span>
+              <span style="color: blue;"><b>${richiesta.cartaRichiesta.name}</b></span>
             </p>
           `;
-
+          
           const accettaBtn = document.createElement('button');
           accettaBtn.textContent = 'Accetta';
           accettaBtn.style.marginRight = '10px';
