@@ -1,10 +1,11 @@
-
+//appena viene aperta la pagina, in cui vengono visualizzate le carte doppione degli altri utenti, tolto quello loggato in quel momento,
+//viene svolto sempre il controllo sull'utente e poi viene chiamata la funzione caricaCartePerScambio
 document.addEventListener('DOMContentLoaded', async () => {
     const user = await fetch('/getUser').then(res => res.json());
     caricaCartePerScambio(user._id);
   });
   
-
+//funzione per il caricamento delle carte doppioni degli altri utenti, diversi dall'utente loggato
 async function caricaCartePerScambio(userId) {
     try {
       // Recupera il mainAlbum del tuo utente (userId è il tuo ID)
@@ -36,7 +37,8 @@ async function caricaCartePerScambio(userId) {
     }
   }
   
-  
+  //funzione per confermare che voglio scambiare la mia cartaProposta, che era stata salvata nel localStorage
+  //con la cartaRichiesta dell'utente con id=userBId  
   function confermaScambio(userAId, userBId, cartaRichiesta) {
   const cartaProposta = JSON.parse(localStorage.getItem('cartaProposta'));
   if (!cartaProposta) {
@@ -44,6 +46,7 @@ async function caricaCartePerScambio(userId) {
     return;
   }
 
+  //fetch per inviare questa richiesta di scambio all'utenteB
   fetch('/api/richiesta-scambio', {
     method: 'POST',
     headers: {
@@ -70,8 +73,7 @@ async function caricaCartePerScambio(userId) {
   });
 }
 
-
-
+  //funzione per creare la carta del persinaggio che verra' visualizzata sulla pagina scegli-carta
   function createCharacterCard(character, showCardPossesso = []) {
     const col = document.createElement('div');
     col.className = 'col-md-4 mb-4';

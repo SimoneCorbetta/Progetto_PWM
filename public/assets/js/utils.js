@@ -1,16 +1,20 @@
+//funzione per controllare l'utente se e' autenticato
 async function fetchCurrentUser() {
-    try {
-      const res = await fetch('/getUser');
-      if (!res.ok) throw new Error('Utente non autenticato');
-      const user = await res.json();
-      userId = user._id;
-    } catch (err) {
-      console.error('Errore nel recupero utente:', err);
-      alert('Sessione scaduta. Effettua di nuovo il login.');
-      window.location.href = '/login';
-    }
+  try {
+    const res = await fetch('/getUser');
+    if (!res.ok) throw new Error('Utente non autenticato');
+    const user = await res.json();
+    userId = user._id;
+  } catch (err) {
+    console.error('Errore nel recupero utente:', err);
+    alert('Sessione scaduta. Effettua di nuovo il login.');
+    window.location.href = '/login';
   }
+}
 
+//funzione per creare la carta, i parametri sono: character (personaggio);
+//showAddButton, ovvero booleano (se true fa visualizzare il pulsante per aggiungere questo personaggio nel mio album principale o doppioni);
+//showInfoButton, anch'esso booleano per far visualizzare questo pulsante nel div della card
 function createCharacterCard(character, showAddButton = false, showInfoButton = true) {
     const col = document.createElement('div');
     col.className = 'col-md-4 mb-4';
@@ -26,13 +30,16 @@ function createCharacterCard(character, showAddButton = false, showInfoButton = 
         </div>
       </div>
     `;
-  
+
+    //se il booleano showAddButton e' vero, al click del bottone con class=add-to-album, esegui la funzione addToAlbum
     if (showAddButton) {
       col.querySelector('.add-to-album').addEventListener('click', () => {
         addToAlbum(character);
       });
     }
 
+    //se il booleano showInfoButton e' vero, al click del bottone con class=view-data-figurina,
+    //fai una fetch al server e con i dati della risposta chiami la funzione showModalWithCharacterData
     if (showInfoButton) {
       col.querySelector('.view-data-figurina').addEventListener('click', async () => {
         try {
@@ -48,7 +55,8 @@ function createCharacterCard(character, showAddButton = false, showInfoButton = 
   
     return col;
   }
-  
+  //funzione per aggiungere il personaggio (figurina) nell'album
+  //se nuova nel principale, altrimenti nell'album dei doppioni
   async function addToAlbum(character) {
     try {
       const res = await fetch('/api/album/add', {
@@ -61,6 +69,8 @@ function createCharacterCard(character, showAddButton = false, showInfoButton = 
       alert(data.message || 'Personaggio aggiunto.');
   
       // Rimuove dal DOM
+      //quando schiaccio il pulsante per aggiungere la figurina nel mio album la card dal div viene eliminata
+      //perche' se non la rimuovo e' possibile ripremere lo stesso pulsante e ne aggiunge un'altra uguale
       const cardElement = document.querySelector(`[data-id="${character.id}"]`);
       if (cardElement) cardElement.remove();
   
@@ -69,6 +79,7 @@ function createCharacterCard(character, showAddButton = false, showInfoButton = 
     }
   }
 
+  //funzione per mostrare piu' dati del personaggio in un modal (bootstrap)
   function showModalWithCharacterData(character) {
     const modalHtml = `
       <div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">

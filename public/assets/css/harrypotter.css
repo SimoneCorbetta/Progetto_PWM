@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap'); /* Importa il font MedievalSharp da Google Fonts */
+
+body {
+  font-family: 'MedievalSharp', cursive; /* Imposta il font MedievalSharp con fallback corsivo */
+  background-color: #fdf6e3; /* Colore di sfondo beige chiaro */
+  color: #2d1e1e; /* Colore del testo marrone scuro */
+  padding: 2rem; /* Padding interno di 2rem */
+  max-width: 800px; /* Larghezza massima del contenuto centrato */
+  margin: auto; /* Centra il contenuto orizzontalmente */
+}
+
+h1 {
+  text-align: center; /* Allinea il titolo al centro */
+  color: #6b4226; /* Colore marrone ispirato alla pergamena */
+  border-bottom: 3px double #6b4226; /* Bordo inferiore doppio, marrone */
+  padding-bottom: 10px; /* Spaziatura interna sotto il testo */
+  margin-bottom: 2rem; /* Spazio sotto il titolo */
+}
+
+.richiesta {
+  background: #fff8dc; /* Sfondo color crema (cornsilk) */
+  border-left: 5px solid #6b4226; /* Bordo a sinistra spesso, marrone */
+  padding: 1rem; /* Spaziatura interna di 1rem */
+  margin-bottom: 1.5rem; /* Spazio sotto il blocco */
+  box-shadow: 2px 2px 10px rgba(107, 66, 38, 0.2); /* Leggera ombra per effetto rilievo */
+  position: relative; /* Necessario per pseudo-elementi come ::after */
+}
+
+.richiesta::after {
+  content: ''; /* Pseudo-elemento vuoto per decorazione */
+  display: block; /* Si comporta come blocco */
+  height: 2px; /* Altezza di 2px */
+  background: #b5895e; /* Riga decorativa marrone chiaro */
+  margin-top: 1rem; /* Spazio sopra la riga */
+}
+
+button {
+  font-family: 'MedievalSharp', cursive; /* Font coerente con il resto del layout */
+  background-color: #6b4226; /* Sfondo marrone */
+  color: #fff; /* Testo bianco */
+  border: none; /* Nessun bordo */
+  padding: 8px 14px; /* Spaziatura interna: 8px sopra/sotto, 14px laterali */
+  cursor: pointer; /* Cursore a forma di mano */
+  border-radius: 6px; /* Angoli arrotondati */
+  transition: background-color 0.3s ease; /* Transizione fluida per il colore di sfondo */
+}
+
+button:hover {
+  background-color: #4a2e1d; /* Cambia colore al passaggio del mouse */
+}
+
+span b {
+  font-weight: bold; /* Rende in grassetto il testo all’interno di <span><b> */
+}
+
+span[style*="green"] {
+  color: #2e8b57 !important; /* Colore verde intenso (Serpeverde), forza l'override con !important */
+}
+
+span[style*="blue"] {
+  color: #1e90ff !important; /* Colore blu vivo (Corvonero), forza l'override con !important */
+}

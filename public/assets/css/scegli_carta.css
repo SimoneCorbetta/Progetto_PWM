@@ -1,0 +1,106 @@
+@import url('https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap'); /* Importa il font MedievalSharp da Google Fonts */
+
+body {
+    margin: 0; /* Rimuove margini */
+    padding: 40px; /* Spaziatura interna */
+    font-family: 'MedievalSharp', cursive; /* Font principale */
+    background: linear-gradient(to bottom, #fdf6e3, #f8eec1); /* Sfondo sfumato pergamena */
+    color: #2d1e1e; /* Colore del testo */
+    min-height: 100vh; /* Altezza minima: 100% viewport */
+    display: flex; /* Layout flex */
+    flex-direction: column; /* Colonne verticali */
+    align-items: center; /* Allineamento orizzontale centrato */
+}
+
+/* Titolo principale */
+h1 {
+  text-align: center; /* Centrato */
+  font-family: 'Cinzel Decorative', cursive; /* Font decorativo per effetto magico */
+  font-size: 3rem; /* Grandezza titolo */
+  color: gold; /* Colore oro */
+  text-shadow: 2px 2px 4px #000; /* Ombra nera */
+  margin-bottom: 2.5rem; /* Spazio sotto */
+}
+
+/* Contenitore delle carte */
+#offerte-container {
+  display: flex; /* Layout flessibile */
+  flex-wrap: wrap; /* Permette di andare a capo */
+  justify-content: center; /* Centra orizzontalmente */
+  gap: 2rem; /* Spaziatura tra le card */
+}
+
+/* Card con dimensioni fisse e stile coerente */
+.card {
+  background-color: rgba(26, 19, 13, 0.95); /* Marrone scuro semitrasparente */
+  border: 2px solid gold; /* Bordo dorato */
+  border-radius: 20px; /* Angoli arrotondati */
+  width: 280px; /* Larghezza fissa */
+  height: 460px; /* Altezza fissa per uniformità */
+  display: flex; /* Layout interno flessibile */
+  flex-direction: column; /* Disposizione verticale */
+  justify-content: space-between; /* Spazio tra intestazione, contenuto e bottone */
+  box-shadow: 0 0 25px rgba(255, 215, 0, 0.4); /* Ombra dorata */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Animazione al passaggio */
+}
+
+.card:hover {
+  transform: scale(1.05); /* Ingrandimento su hover */
+  box-shadow: 0 0 40px rgba(255, 215, 0, 0.6); /* Ombra più intensa */
+}
+
+/* Immagine in alto nella card */
+.card-img-top {
+  height: 250px; /* Altezza fissa */
+  object-fit: cover; /* Riempie mantenendo le proporzioni */
+  border-top-left-radius: 18px; /* Arrotondamento angolo sinistro alto */
+  border-top-right-radius: 18px; /* Arrotondamento angolo destro alto */
+  width: 100%; /* Larghezza piena */
+}
+
+/* Corpo della card */
+.card-body {
+  flex-grow: 1; /* Si espande per riempire lo spazio disponibile */
+  display: flex; /* Layout interno flessibile */
+  flex-direction: column; /* Disposizione verticale */
+  justify-content: space-between; /* Spazio tra titolo, testo e bottone */
+  padding: 1rem; /* Spaziatura interna */
+  text-align: center; /* Testo centrato */
+}
+
+/* Titolo nella card */
+.card-title {
+  font-family: 'Cinzel Decorative', cursive; /* Font decorativo */
+  color: #ffd700; /* Colore oro */
+  font-size: 1.4rem; /* Dimensione media */
+  margin-bottom: 0.5rem; /* Spazio sotto */
+}
+
+/* Testo descrittivo */
+.card-text {
+  font-size: 1rem; /* Dimensione normale */
+  color: #ddd; /* Grigio chiaro */
+  font-style: italic; /* Corsivo */
+}
+
+/* Bottone nella card ("Conferma scambio") */
+.card button {
+  display: block; /* Comportamento a blocco */
+  margin: 1rem auto 0.5rem auto; /* Centrato con margine */
+  background: linear-gradient(135deg, #6a0dad, #8a2be2); /* Sfondo viola sfumato */
+  color: #fff; /* Testo bianco */
+  border: none; /* Nessun bordo */
+  font-weight: bold; /* Grassetto */
+  padding: 0.6rem 1.2rem; /* Spaziatura */
+  border-radius: 12px; /* Angoli arrotondati */
+  cursor: pointer; /* Cursore a mano */
+  font-family: 'Cinzel Decorative', cursive; /* Font decorativo coerente */
+  box-shadow: 0 0 10px #8a2be2; /* Ombra viola */
+  transition: background 0.3s, transform 0.2s, box-shadow 0.3s; /* Animazioni */
+}
+
+.card button:hover {
+  background: linear-gradient(135deg, #8a2be2, #ba55d3); /* Sfumatura più chiara su hover */
+  transform: scale(1.05); /* Ingrandimento */
+  box-shadow: 0 0 15px #ba55d3; /* Ombra più intensa */
+}

@@ -48,6 +48,7 @@ mongoose.connect('mongodb+srv://corbetta:1234@pwm.ttn8fle.mongodb.net/PWM')
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.error(err));
 
+//schema Utente
 const userSchema = new mongoose.Schema({
   username: { type: String, required: true, unique: true },
   password: { type: String, required: true },
@@ -62,6 +63,7 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model('User', userSchema, 'users');
 
+//schema Album (contiene sia album principale che album dei doppioni)
 const albumSchema = new mongoose.Schema({
   owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   mainAlbum: [{ id: Number, name: String, house: String, image: String, species: String, gender: String, eyeColour: String, hairColour: String, actor: String}],
@@ -69,7 +71,7 @@ const albumSchema = new mongoose.Schema({
 });
 const Album = mongoose.model('Album', albumSchema, 'albums');
 
-
+//schema dei messaggi (richieste -> risposte)
 const messaggioSchema = new mongoose.Schema({
   mittente: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   destinatario: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
@@ -86,6 +88,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
+//rotte per gestione dell'utente
 let currentUser = null;
 
 app.get('/', (req, res) => {
@@ -96,6 +99,7 @@ app.get('/login', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'login.html'));
 });
 
+// rotta per verificare l'utente
 app.get('/getUser', async (req, res) => {
   if (!currentUser) return res.status(401).send('Non autorizzato');
   const user = await User.findOne({ username: currentUser });
@@ -103,6 +107,7 @@ app.get('/getUser', async (req, res) => {
   res.json(user);
 });
 
+//rotta per la registrazione
 app.post('/register', async (req, res) => {
   const { username, password, email, house_p } = req.body;
   try {
@@ -116,6 +121,7 @@ app.post('/register', async (req, res) => {
   }
 });
 
+//rotta per il login
 app.post('/login', async (req, res) => {
   const { username, password } = req.body;
   try {
@@ -141,6 +147,7 @@ app.get('/edit', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'edit.html'));
 });
 
+//rotta per la modifica dei dati dell'utente
 app.put('/update', async (req, res) => {
   if (!currentUser) return res.status(401).send('Non autorizzato');
   const { username, password, email, house_p } = req.body;
@@ -154,6 +161,7 @@ app.put('/update', async (req, res) => {
   }
 });
 
+//rotta per la cancellazione dell'utente
 app.delete('/delete', async (req, res) => {
   if (!currentUser) return res.status(401).send('Non autorizzato');
   try {
@@ -165,6 +173,8 @@ app.delete('/delete', async (req, res) => {
   }
 });
 
+//rotte per la gestione degli acquisti dei pacchetti
+//rotta per ottenere i crediti dell'utente
 app.get('/get-credits', async (req, res) => {
   try {
     const user = await User.findOne({ username: currentUser });
@@ -175,6 +185,12 @@ app.get('/get-credits', async (req, res) => {
   }
 });
 
+app.get('/buy_pacchetti', (req, res) => {
+  if (!currentUser) return res.redirect('/login');
+  res.sendFile(path.join(__dirname, 'public', 'album.html'));
+});
+
+//rotta per l'acquisto dei crediti
 app.post('/buy-credits', async (req, res) => {
   const { username, credits } = req.body;
   try {
@@ -188,6 +204,7 @@ app.post('/buy-credits', async (req, res) => {
   }
 });
 
+//rotta per l'acquisto effettivo del pacchetto di figurine
 app.post('/api/buy-package', async (req, res) => {
   const { userId } = req.body;
   try {
@@ -222,7 +239,7 @@ app.post('/api/buy-package', async (req, res) => {
   }
 });
 
-
+//rotte per la visualizzazione degli album
 app.get('/album/:idUtente', async (req, res) => {
   try {
     const album = await Album.findOne({ owner: req.params.idUtente });
@@ -260,16 +277,11 @@ app.post('/api/album/add', async (req, res) => {
 
     // Controlla se la carta è già nel mainAlbum
     const inMain = album.mainAlbum.some(c => c.id === character.id);
-    const inDuplicates = album.duplicatesAlbum.some(c => c.id === character.id);
 
     if (inMain) {
-      if (!inDuplicates) {
-        album.duplicatesAlbum.push(character);
-        await album.save();
-        return res.json({ message: 'Aggiunto ai doppioni' });
-      } else {
-        return res.json({ message: 'Già presente nei doppioni' });
-      }
+      album.duplicatesAlbum.push(character);
+      await album.save();
+      return res.json({ message: 'Aggiunto ai doppioni' });
     }
 
     album.mainAlbum.push(character);
@@ -281,13 +293,14 @@ app.post('/api/album/add', async (req, res) => {
     res.status(500).json({ error: 'Errore del server' });
   }
 });
+
 //rotta ripetuta eliminare successivamente
+//ripetizione di rotta, ma non sono riuscito a elimanarla visto che mi da errore
 app.get('/album/:userId/main', async (req, res) => {
   const { userId } = req.params;
 
   try {
     const album = await Album.findOne({ owner: userId });
-
     if (!album) {
       return res.status(404).json({ error: 'Album non trovato per questo utente.' });
     }
@@ -317,6 +330,7 @@ app.get('/scegli-carta', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'scegli-carta.html'));
 });
 
+//rotta per caricare sulla pagina scelta-carta i doppioni degli altri utenti
 app.get('/scambi/:idUtente/altre-doppioni', async (req, res) => {
   const { idUtente } = req.params;
 
@@ -340,6 +354,9 @@ app.get('/scambi/:idUtente/altre-doppioni', async (req, res) => {
   }
 });
 
+//rotta per lo scambio
+//non ho messo nessun controllo primario tra le carte perche' ho aggiunto
+//per ogni carta gia' posseduta un asterisco (*) rendendo per l'utente lo scambio molto meno complesso
 app.post('/api/scambio/:id', async (req, res) => {
   try {
     const richiesta = await Messaggi.findById(req.params.id)
@@ -382,6 +399,9 @@ app.post('/api/scambio/:id', async (req, res) => {
   }
 });
 
+//rotta per trovare il personaggio con uno specifico id
+//lo so che c'era questa API, ma non sono riuscito ad usarla
+//cosi ho creato una rotta
 app.get('/character/:id', async (req, res) => {
   const characterId = parseInt(req.params.id);
 
@@ -409,7 +429,9 @@ app.get('/messaggi', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'messaggi.html'));
 });
 
-//rotte per lo scambio dei messaggi per lo scambio
+//rotte per lo scambio dei messaggi per lo scambio delle carte
+//rotta che viene eseguita quando l'utente ha confermato la carta di un altro utente
+//nella pagina scelta-carta
 app.post('/api/richiesta-scambio', async (req, res) => {
   const { userAId, userBId, cardA, cardB } = req.body;
 
@@ -433,8 +455,7 @@ app.post('/api/richiesta-scambio', async (req, res) => {
   }
 });
 
-
-
+//rotta per caricare le richieste o risposte riferite all'utente con quel userId
 app.get('/api/richieste/:userId', async (req, res) => {
   try {
     const richieste = await Messaggi.find({ destinatario: req.params.userId})
@@ -447,6 +468,7 @@ app.get('/api/richieste/:userId', async (req, res) => {
   }
 });
 
+//rotta dopo conferma o rifiuto dello scambio dal destinatario della richiesta
 app.post('/api/richiesta/:id/rispondi', async (req, res) => {
   const { accettato } = req.body;
 
@@ -490,6 +512,7 @@ app.post('/api/richiesta/:id/rispondi', async (req, res) => {
   }
 });
 
+//rotta per verificare che la cartaOfferta dal primo utente (mittente), non sia gia' in possesso dal secondo utente (destinatario)
 app.post('/verifica-possesso', async (req, res) => {
   try {
     const { userId, cartaOffertaId } = req.body;

@@ -1,102 +1,132 @@
-/* Imposta uno sfondo eroico */
+@import url('https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap'); /* Importa il font MedievalSharp da Google Fonts */
+
 body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Arial', sans-serif;
-    background: linear-gradient(to bottom, #1e1e2f, #3b3b54);
-    color: #ffffff;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column; /* Per mantenere il titolo sopra al form */
+    margin: 0; /* Elimina il margine predefinito del body */
+    padding: 0; /* Elimina il padding predefinito */
+    font-family: 'MedievalSharp', cursive; /* Applica il font MedievalSharp, con fallback corsivo */
+    background: linear-gradient(to bottom, #fdf6e3, #f8eec1); /* Sfondo a gradiente dal beige chiaro a un giallo pallido */
+    color: #3b2f2f; /* Colore del testo marrone */
+    height: 100vh; /* Altezza dell’intera viewport */
+    display: flex; /* Imposta il contenitore come flexbox */
+    justify-content: center; /* Centra orizzontalmente */
+    align-items: center; /* Centra verticalmente */
+    flex-direction: column; /* Dispone i figli in colonna */
 }
 
-/* Contenitore principale per centrare i form */
+/* Contenitore del form */
 form {
-    background: rgba(0, 0, 0, 0.8);
-    border-radius: 10px;
-    padding: 20px;
-    width: 400px;
-    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.5);
-    text-align: center;
+    background: #fff8dc; /* Sfondo color crema (cornsilk) */
+    border: 3px solid #6b4226; /* Bordo marrone scuro spesso 3px */
+    border-radius: 14px; /* Angoli arrotondati */
+    padding: 30px; /* Spaziatura interna di 30px */
+    width: 90%; /* Larghezza responsiva: 90% del contenitore */
+    max-width: 450px; /* Larghezza massima: 450px */
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3); /* Ombra per profondità */
+    text-align: center; /* Allinea testo al centro */
+    position: relative; /* Posizionamento relativo per pseudo-elementi */
 }
 
-/* Titolo centrato */
+/* Icona saetta magica */
+form::before {
+    content: "⚡"; /* Inserisce una saetta prima del contenuto del form */
+    display: block; /* Mostra come blocco separato */
+    font-size: 48px; /* Dimensione grande dell’icona */
+    text-align: center; /* Allinea al centro */
+    color: #d4af37; /* Colore oro */
+    margin-bottom: 10px; /* Spazio sotto l’icona */
+}
+
+/* Titolo */
 h1 {
-    text-align: center;
-    color: #ffcc00;
-    text-shadow: 2px 2px 5px rgba(255, 255, 0, 0.7);
-    margin-bottom: 20px;
+    color: #6b4226; /* Colore marrone scuro */
+    font-size: 28px; /* Dimensione del font */
+    margin-bottom: 20px; /* Spazio sotto il titolo */
+    text-shadow: 1px 1px 0 #d4af37; /* Ombra dorata leggera per effetto rilievo */
 }
 
 /* Etichette */
 label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 5px;
-    color: #ffcc00;
+    display: block; /* Visualizza ogni etichetta su una riga separata */
+    font-weight: bold; /* Testo in grassetto */
+    margin-bottom: 6px; /* Spazio sotto l’etichetta */
+    color: #6b4226; /* Colore marrone scuro */
+    text-align: left; /* Allinea il testo a sinistra */
+    margin-left: auto; /* Centra orizzontalmente */
+    margin-right: auto;
+    max-width: 300px; /* Larghezza massima delle etichette */
 }
 
-/* Input: lunghezza ridotta e centrata */
+/* Input */
 input[type="text"],
-input[type="password"] {
-    width: 90%;
-    max-width: 300px;
-    padding: 10px;
-    margin: 10px auto 15px auto;
-    border: none;
-    border-radius: 5px;
-    outline: none;
-    background: #2e2e3f;
-    color: #ffffff;
-    font-size: 14px;
-    display: block;
+input[type="password"],
+select {
+    width: 90%; /* Larghezza responsiva */
+    max-width: 300px; /* Larghezza massima */
+    padding: 10px; /* Spaziatura interna */
+    margin: 10px auto 15px auto; /* Margini sopra e sotto */
+    border: 2px solid #d4af37; /* Bordo dorato */
+    border-radius: 6px; /* Angoli arrotondati */
+    background: #f8f1d1; /* Sfondo giallo chiaro */
+    color: #3b2f2f; /* Colore del testo marrone */
+    font-size: 15px; /* Dimensione del testo */
+    display: block; /* Visualizzazione a blocco */
+    outline: none; /* Rimuove bordo blu al focus */
+}
+
+/* Effetto focus sugli input */
+input[type="text"]:focus,
+input[type="password"]:focus,
+select:focus {
+    border-color: #b8860b; /* Cambia colore del bordo al focus (dark goldenrod) */
+    background-color: #fffbe6; /* Sfondo ancora più chiaro */
+}
+
+/* Select dropdown specifico */
+select {
+    appearance: none; /* Rimuove lo stile nativo del browser */
+    background-image: url("data:image/svg+xml;utf8,<svg fill='darkgoldenrod' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>"); 
+    /* Aggiunge un'icona personalizzata di freccia */
+    background-repeat: no-repeat; /* Non ripetere l'immagine */
+    background-position: right 10px center; /* Posiziona l’icona a destra e centrata verticalmente */
+    background-size: 16px; /* Dimensione dell’icona */
+    cursor: pointer; /* Cambia il cursore al passaggio */
 }
 
 /* Bottone */
 button {
-    width: 90%;
-    max-width: 300px;
-    padding: 10px;
-    background-color: #ff6600;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    font-weight: bold;
-    color: #ffffff;
-    cursor: pointer;
-    text-transform: uppercase;
-    transition: background 0.3s;
-    display: block;
-    margin: 0 auto;
+    width: 90%; /* Larghezza responsiva */
+    max-width: 300px; /* Larghezza massima */
+    padding: 10px; /* Spaziatura interna */
+    background-color: #6b4226; /* Marrone scuro */
+    border: none; /* Nessun bordo */
+    border-radius: 6px; /* Angoli arrotondati */
+    font-size: 16px; /* Dimensione testo */
+    font-weight: bold; /* Testo in grassetto */
+    color: #fff8dc; /* Testo color crema */
+    cursor: pointer; /* Cambia il cursore al passaggio */
+    text-transform: uppercase; /* Tutte le lettere in maiuscolo */
+    transition: background 0.3s ease; /* Transizione sfondo */
+    margin: 0 auto; /* Centra il bottone */
+    display: block; /* Visualizzazione a blocco */
 }
 
 button:hover {
-    background-color: #e65c00;
+    background-color: #4a2e1d; /* Sfondo più scuro al passaggio del mouse */
 }
 
-/* Per dare un tocco in più al layout */
-form::before {
-    content: "⚡";
-    display: block;
-    font-size: 50px;
-    text-align: center;
-    color: #ffcc00;
-    margin-bottom: 10px;
-}
-
-/* Stile per l'ancora finale */
+/* Link */
 a {
-    display: block;
-    text-align: center;
-    color: #ffcc00;
-    font-size: 18px;
-    font-weight: bold;
-    margin-top: 15px;
-    text-decoration: none;
+    display: block; /* Link su una riga separata */
+    text-align: center; /* Allineamento al centro */
+    color: #6b4226; /* Marrone scuro */
+    font-size: 17px; /* Dimensione del font */
+    font-weight: bold; /* Testo in grassetto */
+    margin-top: 20px; /* Spazio sopra al link */
+    text-decoration: none; /* Rimuove la sottolineatura */
+    transition: color 0.3s ease; /* Transizione del colore */
 }
 
 a:hover {
-    text-decoration: underline;
+    color: #d4af37; /* Cambia il colore del link al passaggio */
+    text-decoration: underline; /* Aggiunge sottolineatura al passaggio */
 }

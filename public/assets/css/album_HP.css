@@ -1,0 +1,136 @@
+@import url('https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap'); /* Importa il font MedievalSharp da Google Fonts */
+
+body {
+  font-family: 'MedievalSharp', cursive; /* Applica il font MedievalSharp con stile corsivo */
+  background: linear-gradient(to bottom, #f8f0d6, #e8d8a8); /* Sfondo sfumato dal beige chiaro a sabbia */
+  color: #3b2f2f; /* Colore del testo marrone scuro */
+  padding: 20px; /* Spaziatura interna generale della pagina */
+}
+
+h1 {
+  font-size: 32px; /* Dimensione del titolo */
+  text-align: center; /* Allineamento al centro */
+  color: #6b4226; /* Colore marrone ispirato alla pergamena */
+  margin-bottom: 30px; /* Spazio sotto il titolo */
+  text-shadow: 2px 2px #d4af37; /* Ombra dorata sul testo */
+}
+
+/* Card delle figurine */
+.card {
+  background-color: #fff8dc; /* Sfondo crema (cornsilk) */
+  border: 2px solid #b8860b; /* Bordo dorato/marrone */
+  border-radius: 12px; /* Angoli arrotondati */
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Ombra per dare profondità */
+  transition: transform 0.3s ease; /* Transizione fluida su hover */
+  position: relative; /* Necessario per eventuali elementi assoluti */
+}
+
+.card:hover {
+  transform: scale(1.03); /* Ingrandisce leggermente la card al passaggio del mouse */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); /* Ombra più intensa su hover */
+}
+
+.card-img-top {
+  border-top-left-radius: 10px; /* Arrotonda l’angolo in alto a sinistra dell’immagine */
+  border-top-right-radius: 10px; /* Arrotonda l’angolo in alto a destra dell’immagine */
+  max-height: 300px; /* Altezza massima dell’immagine */
+  object-fit: cover; /* L’immagine riempie l’area senza deformarsi */
+}
+
+.card-body {
+  text-align: center; /* Centra il contenuto testuale della card */
+  padding: 15px; /* Spaziatura interna */
+}
+
+.card-title {
+  font-size: 20px; /* Dimensione del titolo della card */
+  font-weight: bold; /* Grassetto */
+  color: #4b2e2e; /* Marrone scuro */
+  margin-bottom: 10px; /* Spazio sotto il titolo */
+}
+
+/* Casa (house) */
+.card-text {
+  font-style: italic; /* Testo in corsivo */
+  font-size: 16px; /* Dimensione testo */
+  margin-bottom: 12px; /* Spazio sotto il paragrafo */
+  color: #5b3924; /* Marrone medio */
+}
+
+/* Bottoni */
+.card .btn {
+  font-weight: bold; /* Grassetto */
+  font-size: 14px; /* Dimensione testo */
+  margin-top: 5px; /* Spazio sopra il bottone */
+  background-color: #6b4226; /* Sfondo marrone */
+  color: #fff8dc; /* Testo crema */
+  border: none; /* Nessun bordo */
+  border-radius: 6px; /* Angoli arrotondati */
+  padding: 8px 12px; /* Spaziatura interna */
+  transition: background 0.3s ease; /* Transizione fluida dello sfondo */
+}
+
+.card .btn:hover {
+  background-color: #4a2e1d; /* Colore più scuro su hover */
+}
+
+.card .scambia-btn {
+  display: block; /* Comportamento a blocco */
+  margin: 10px auto 20px auto; /* Centra il bottone con margini sopra e sotto */
+  background-color: #4b0082; /* Viola Hogwarts */
+  color: #fff8dc; /* Testo crema */
+  border: none; /* Nessun bordo */
+  border-radius: 6px; /* Angoli arrotondati */
+  padding: 8px 16px; /* Spaziatura interna */
+  font-size: 14px; /* Dimensione del testo */
+  font-weight: bold; /* Grassetto */
+  transition: background 0.3s ease; /* Transizione sul cambio sfondo */
+  width: fit-content; /* Larghezza pari al contenuto */
+}
+
+.card .scambia-btn:hover {
+  background-color: #360061; /* Viola più scuro su hover */
+}
+
+/* Modal per i dettagli */
+.modal-content {
+  background-color: #fffaf0; /* Sfondo color crema chiaro */
+  border: 2px solid #d4af37; /* Bordo dorato */
+  border-radius: 10px; /* Angoli arrotondati */
+  font-family: 'MedievalSharp', cursive; /* Font coerente con il resto del design */
+}
+
+.modal-title {
+  color: #6b4226; /* Marrone scuro */
+  font-size: 24px; /* Dimensione titolo del modale */
+}
+
+.modal-body p {
+  font-size: 16px; /* Dimensione testo dei paragrafi */
+  color: #3b2f2f; /* Testo marrone */
+}
+
+.modal-body img {
+  border-radius: 10px; /* Arrotonda l’immagine */
+  border: 2px solid #b8860b; /* Bordo dorato */
+}
+
+/* Responsive: riduce margini sui dispositivi piccoli */
+@media (max-width: 576px) {
+  .card-title {
+    font-size: 18px; /* Titolo più piccolo su schermi stretti */
+  }
+
+  .card-text {
+    font-size: 14px; /* Testo descrittivo ridotto */
+  }
+
+  .card .btn {
+    font-size: 13px; /* Bottoni più piccoli */
+    padding: 6px 10px; /* Padding ridotto */
+  }
+
+  .modal-body p {
+    font-size: 14px; /* Testo modale leggermente più piccolo */
+  }
+}

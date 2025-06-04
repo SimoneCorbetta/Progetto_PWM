@@ -1,157 +1,219 @@
+@import url('https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap'); /* Importa il font MedievalSharp da Google Fonts */
+
 body {
-    margin: 50px;
-    padding: 0;
-    font-family: 'Arial', sans-serif;
-    background: linear-gradient(to bottom, #1e1e2f, #3b3b54);
-    color: #ffffff;
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    flex-direction: column; /* Per mantenere il titolo sopra al form */
+    margin: 0; /* Rimuove margini di default */
+    padding: 40px; /* Spaziatura interna su tutti i lati */
+    font-family: 'MedievalSharp', cursive; /* Applica il font MedievalSharp */
+    background: linear-gradient(to bottom, #fdf6e3, #f8eec1); /* Sfondo sfumato color pergamena */
+    color: #2d1e1e; /* Testo marrone scuro */
+    min-height: 100vh; /* Altezza minima pari a tutto lo schermo */
+    display: flex; /* Layout flessibile */
+    flex-direction: column; /* Colonne verticali */
+    align-items: center; /* Centra orizzontalmente il contenuto */
 }
 
-/* Dashboard e altre sezioni */
-.dashboard {
-    text-align: center;
-    background: rgba(0, 0, 0, 0.8);
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.5);
+/* Stile generale dei pulsanti */
+button.btn {
+  padding: 12px 20px; /* Spaziatura interna */
+  font-size: 16px; /* Dimensione del testo */
+  font-weight: bold; /* Grassetto */
+  border: none; /* Nessun bordo */
+  border-radius: 8px; /* Angoli arrotondati */
+  cursor: pointer; /* Cursore a mano al passaggio */
+  text-transform: uppercase; /* Tutto in maiuscolo */
+  transition: background 0.3s ease, transform 0.2s ease; /* Transizione fluida */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4); /* Ombra sotto il bottone */
 }
 
-.dashboard h1 {
-    margin-bottom: 20px;
-    color: #ffcc00;
-    text-shadow: 2px 2px 5px rgba(255, 255, 0, 0.7);
-}
-
-.dashboard button {
-    width: 200px;
-    margin: 10px auto;
-    display: block;
-    padding: 10px;
-    font-size: 16px;
-}
-
-
-/* Stile per la dashboard */
-.dashboard-container {
-    background: rgba(0, 0, 0, 0.8);
-    padding: 20px;
-    border-radius: 10px;
-    width: 90%;
-    max-width: 800px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-    margin: 20px auto;
-    text-align: center;
-    color: #ffffff;
-}
-
-.dashboard-container h2 {
-    color: #ffcc00;
-    text-shadow: 2px 2px 5px rgba(255, 255, 0, 0.7);
-    margin-bottom: 20px;
-}
-
-.dashboard-container button {
-    margin: 10px auto;
-    padding: 10px 20px;
-    font-size: 16px;
-    font-weight: bold;
-    color: #ffffff;
-    background-color: #ff6600;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background 0.3s;
-}
-
-.dashboard-container button:hover {
-    background-color: #e65c00;
-}
-
-/* Stile per la gestione del credito */
-.credit-management {
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    gap: 20px;
-}
-
-.credit-box {
-    background: rgba(0, 0, 0, 0.8);
-    padding: 15px;
-    border-radius: 10px;
-    width: 45%;
-    max-width: 400px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-    text-align: center;
-    color: #ffffff;
-}
-
-.credit-box h3 {
-    color: #ffcc00;
-}
-
-.credit-box button {
-    margin-top: 10px;
-    padding: 10px;
-    font-size: 14px;
-    font-weight: bold;
-    background-color: #00b300;
-    color: #ffffff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.credit-box button:hover {
-    background-color: #009900;
-}
-
-/* Barra di intestazione per la dashboard */
+/* Header stile pergamena */
 .header-bar {
-    width: 100%;
-    background: rgba(0, 0, 0, 0.9);
-    color: #ffffff;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.5);
+    width: 100%; /* Larghezza piena */
+    background: #6b4226; /* Sfondo marrone */
+    color: #fff8dc; /* Testo color crema */
+    display: flex; /* Layout flessibile */
+    justify-content: space-between; /* Spaziatura tra gli elementi */
+    align-items: center; /* Allineamento verticale centrato */
+    padding: 15px 30px; /* Spaziatura interna */
+    box-shadow: 0 5px 10px rgba(0,0,0,0.4); /* Ombra sotto */
+    font-size: 18px; /* Dimensione del testo */
+    border-bottom: 4px double #d4af37; /* Bordo doppio dorato */
 }
 
 .header-bar h1 {
-    font-size: 24px;
-    color: #ffcc00;
-    margin: 0;
+    font-size: 28px; /* Dimensione del titolo */
+    margin: 0; /* Nessun margine */
+    text-shadow: 2px 2px 3px rgba(0,0,0,0.5); /* Ombra scura */
+    color: #ffd700; /* Colore oro */
 }
 
 .credit-box {
-    display: flex;
-    align-items: center;
-    background: rgba(255, 255, 255, 0.1);
-    padding: 5px 10px;
-    border-radius: 5px;
+    display: flex; /* Disposizione in riga */
+    align-items: center; /* Allineamento verticale centrato */
+    background: rgba(255, 248, 220, 0.1); /* Sfondo semitrasparente */
+    padding: 6px 14px; /* Spaziatura interna */
+    border-radius: 8px; /* Angoli arrotondati */
+    border: 1px solid #d4af37; /* Bordo dorato */
 }
 
 .credit-box p {
-    margin: 0 10px;
-    font-size: 18px;
-    color: #ffffff;
+    margin: 0 10px; /* Spaziatura laterale */
+    font-size: 18px; /* Dimensione testo */
+    color: #fff8dc; /* Colore crema */
 }
 
 .credit-box button {
-    background: #ff6600;
-    border: none;
-    color: #ffffff;
-    font-size: 16px;
-    padding: 5px 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background 0.3s;
+    background: #d4af37; /* Sfondo dorato */
+    border: none; /* Nessun bordo */
+    color: #6b4226; /* Testo marrone */
+    font-size: 18px; /* Dimensione testo */
+    padding: 5px 12px; /* Spaziatura interna */
+    border-radius: 6px; /* Angoli arrotondati */
+    cursor: pointer; /* Cursore a mano */
+    font-weight: bold; /* Grassetto */
+    transition: background 0.3s; /* Transizione sfondo */
 }
 
 .credit-box button:hover {
-    background: #e65c00;
+    background: #e8c86e; /* Dorato più chiaro al passaggio */
+}
+
+/* Dashboard contenitore */
+.dashboard, .dashboard-container {
+    background: #fff8dc; /* Sfondo crema */
+    color: #2d1e1e; /* Testo marrone scuro */
+    padding: 30px; /* Spaziatura interna */
+    border-radius: 16px; /* Angoli arrotondati */
+    max-width: 800px; /* Larghezza massima */
+    width: 100%; /* Larghezza piena */
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2); /* Ombra */
+    margin-top: 30px; /* Margine superiore */
+    text-align: center; /* Testo centrato */
+    border: 3px solid #6b4226; /* Bordo marrone */
+}
+
+.dashboard h1,
+.dashboard-container h2 {
+    color: #6b4226; /* Titolo marrone */
+    margin-bottom: 20px; /* Spazio sotto */
+    text-shadow: 1px 1px 0 #d4af37; /* Ombra dorata */
+}
+
+.dashboard button,
+.dashboard-container button {
+    font-family: 'MedievalSharp', cursive; /* Font medievale */
+    background-color: #6b4226; /* Sfondo marrone */
+    color: #fff8dc; /* Testo crema */
+    border: none; /* Nessun bordo */
+    padding: 10px 20px; /* Spaziatura */
+    font-size: 16px; /* Dimensione testo */
+    border-radius: 8px; /* Angoli arrotondati */
+    margin: 10px; /* Margine */
+    cursor: pointer; /* Cursore */
+    transition: background-color 0.3s ease; /* Transizione */
+}
+
+.dashboard button:hover,
+.dashboard-container button:hover {
+    background-color: #4a2e1d; /* Colore più scuro su hover */
+}
+
+/* Credit management section */
+.credit-management {
+    display: flex; /* Layout flessibile */
+    justify-content: space-around; /* Spaziatura orizzontale */
+    flex-wrap: wrap; /* Permette di andare a capo */
+    gap: 20px; /* Spaziatura tra gli elementi */
+    margin-top: 20px; /* Margine superiore */
+}
+
+.credit-box {
+    background: #f9e9c5; /* Sfondo beige */
+    border: 2px solid #6b4226; /* Bordo marrone */
+    padding: 20px; /* Spaziatura interna */
+    border-radius: 12px; /* Angoli arrotondati */
+    width: 45%; /* Larghezza del contenitore */
+    max-width: 400px; /* Larghezza massima */
+    box-shadow: 3px 3px 12px rgba(0, 0, 0, 0.2); /* Ombra */
+    text-align: center; /* Testo centrato */
+    color: #2d1e1e; /* Colore testo */
+}
+
+.credit-box h3 {
+    color: #6b4226; /* Marrone */
+    margin-bottom: 10px; /* Spazio sotto */
+}
+
+.credit-box button {
+    background-color: #2e8b57; /* Verde Serpeverde */
+    color: #fff; /* Testo bianco */
+    font-size: 15px; /* Dimensione testo */
+    font-weight: bold; /* Grassetto */
+    border: none; /* Nessun bordo */
+    padding: 8px 16px; /* Spaziatura interna */
+    margin-top: 10px; /* Margine superiore */
+    border-radius: 6px; /* Angoli arrotondati */
+    cursor: pointer; /* Cursore a mano */
+    transition: background 0.3s; /* Transizione fluida */
+}
+
+.credit-box button:hover {
+    background-color: #267b4b; /* Verde più scuro su hover */
+}
+
+/* Feedback */
+#feedback {
+    color: #6b4226; /* Colore marrone */
+    margin-top: 20px; /* Margine superiore */
+    font-size: 16px; /* Dimensione testo */
+    font-style: italic; /* Corsivo */
+}
+
+/* Link stile Hogwarts */
+a {
+    text-decoration: none; /* Nessuna sottolineatura */
+    color: #6b4226; /* Marrone */
+    font-weight: bold; /* Grassetto */
+    transition: color 0.3s; /* Transizione colore */
+}
+
+a:hover {
+    color: #d4af37; /* Dorato al passaggio */
+}
+
+/* Pulsante principale */
+#viewMainAlbum.btn-primary {
+  background-color: #7f0909; /* Rosso Grifondoro */
+  color: #fff8dc; /* Testo crema */
+}
+
+#viewMainAlbum.btn-primary:hover {
+  background-color: #5a0707; /* Rosso più scuro */
+  transform: scale(1.05); /* Ingrandimento */
+}
+
+/* Pulsante duplicati */
+#viewDuplicatesAlbum.btn-secondary {
+  background-color: #0e1a40; /* Blu Corvonero */
+  color: #fff8dc; /* Testo crema */
+}
+
+#viewDuplicatesAlbum.btn-secondary:hover {
+  background-color: #08112c; /* Blu più scuro */
+  transform: scale(1.05); /* Ingrandimento */
+}
+
+/* Contenitore dei bottoni con gap */
+.d-flex.gap-4 {
+  gap: 20px; /* Spaziatura tra gli elementi */
+}
+
+/* Contenitore centrato */
+.container.text-center.mt-5 {
+  margin-top: 80px; /* Margine superiore */
+}
+
+#credit-value,
+p span#credit-value,
+p:has(#credit-value) {
+  color: #000000; /* Valore dei crediti in nero */
 }

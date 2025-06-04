@@ -1,9 +1,11 @@
-
+//appna entro nella pagina dei messaggi tra utenti
+//controllo lo user e poi chiamo la funzione caricaRichieste(id dell'utente)
 document.addEventListener('DOMContentLoaded', async () => {
     const user = await fetch('/getUser').then(res => res.json());
     caricaRichieste(user._id);
   });
 
+  // funzione per caricare le richieste legate all'utente prese dal db
     async function caricaRichieste(userId) {
       const container = document.getElementById('richieste-container');
       container.innerHTML = '';
@@ -11,7 +13,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       try {
         const res = await fetch(`/api/richieste/${userId}`);
         const richieste = await res.json();
-        console.log(richieste);
 
         if (richieste.length === 0) {
           container.innerHTML = '<p>Nessuna richiesta di scambio al momento.</p>';
@@ -76,6 +77,9 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
     }
 
+    //funzione per l'accettazione o il rifiuto della richiesta di scambio
+    //in cui modifico alcuni dati riguardo la richiesta (esempio: da scambio diventa di tipo testo, perche' e' solo di conferma o rifiuto, ...)
+    //e la invio da utente2 a utente1, invece prima era il contrario
     function rispondiARichiesta(idRichiesta, accettato) {
       fetch(`/api/richiesta/${idRichiesta}/rispondi`, {
         method: 'POST',

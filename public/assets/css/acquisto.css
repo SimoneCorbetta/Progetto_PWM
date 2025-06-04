@@ -1,0 +1,97 @@
+@import url('https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap'); /* Importa il font MedievalSharp da Google Fonts */
+ 
+body {
+    margin: 0; /* Rimuove il margine predefinito del body */
+    padding: 40px; /* Aggiunge 40px di spazio interno su tutti i lati */
+    font-family: 'MedievalSharp', cursive; /* Applica il font MedievalSharp, con fallback a un corsivo */
+    background: linear-gradient(to bottom, #fdf6e3, #f8eec1); /* Sfondo a gradiente dal beige chiaro al giallo pallido */
+    color: #2d1e1e; /* Colore del testo marrone scuro */
+    min-height: 100vh; /* Altezza minima: 100% della viewport */
+    display: flex; /* Imposta il contenitore come flexbox */
+    flex-direction: column; /* Gli elementi sono disposti in colonna */
+    align-items: center; /* Allinea orizzontalmente al centro */
+}
+
+/* Titolo */
+h1 {
+  font-size: 3rem; /* Grandezza del font molto ampia */
+  color: #ffdf00; /* Colore giallo brillante */
+  text-shadow: 2px 2px 4px #000; /* Ombra nera per dare rilievo al testo */
+  margin-bottom: 30px; /* Spazio inferiore di 30px */
+}
+
+/* Pulsante acquisto pacchetto */
+#buy-package {
+  background-color: #6f4e37; /* Marrone scuro */
+  color: gold; /* Testo dorato */
+  border: 2px solid gold; /* Bordo dorato spesso 2px */
+  font-weight: bold; /* Testo in grassetto */
+  border-radius: 12px; /* Angoli arrotondati di 12px */
+  padding: 12px 24px; /* Spaziatura interna: 12px sopra/sotto, 24px destra/sinistra */
+  transition: all 0.3s ease; /* Animazione fluida per tutte le proprietà */
+}
+
+#buy-package:hover {
+  background-color: gold; /* Sfondo diventa dorato al passaggio del mouse */
+  color: #2e1a09; /* Testo diventa marrone molto scuro */
+  border: 2px solid #2e1a09; /* Bordo marrone scuro */
+}
+
+/* Container card */
+#card-container {
+  display: flex; /* Imposta il container come flexbox */
+  flex-wrap: wrap; /* Permette agli elementi di andare a capo */
+  justify-content: center; /* Centra gli elementi orizzontalmente */
+  gap: 1.5rem; /* Spazio di 1.5rem tra gli elementi */
+}
+
+/* Card stile Harry Potter */
+.card {
+  background-color: rgba(26, 19, 13, 0.95); /* Sfondo marrone molto scuro con opacità */
+  border: 2px solid gold; /* Bordo dorato */
+  border-radius: 20px; /* Angoli molto arrotondati */
+  width: 280px; /* Larghezza fissa della card */
+  height: 460px; /* Altezza fissa della card */
+  display: flex; /* Imposta come flex container */
+  flex-direction: column; /* Disposizione verticale degli elementi */
+  justify-content: space-between; /* Spazio distribuito tra gli elementi interni */
+  box-shadow: 0 0 25px rgba(255, 215, 0, 0.4); /* Effetto luce dorata intorno */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Animazione su trasformazione e ombra */
+}
+
+.card:hover {
+  transform: scale(1.05); /* Ingrandisce leggermente la card */
+  box-shadow: 0 0 40px rgba(255, 215, 0, 0.6); /* Aumenta l'intensità dell’ombra dorata */
+}
+
+/* Immagine */
+.card-img-top {
+  height: 250px; /* Altezza fissa dell'immagine */
+  object-fit: cover; /* Copre tutta l’area mantenendo le proporzioni */
+  border-top-left-radius: 18px; /* Arrotonda l’angolo in alto a sinistra */
+  border-top-right-radius: 18px; /* Arrotonda l’angolo in alto a destra */
+}
+
+/* Corpo della card */
+.card-body {
+  flex-grow: 1; /* Il corpo cresce per occupare lo spazio restante */
+  display: flex; /* Flex container */
+  flex-direction: column; /* Elementi disposti in colonna */
+  justify-content: space-between; /* Spazio tra contenuti e pulsante */
+  padding: 1rem; /* Spaziatura interna */
+  text-align: center; /* Testo centrato */
+  color: #fceabb; /* Colore del testo: giallo chiaro/avorio */
+}
+
+/* Pulsanti all’interno delle card */
+.card-body .btn-success {
+  background-color: #2e8b57; /* Verde scuro (SeaGreen) */
+  border: 1px solid #c0b283; /* Bordo beige chiaro */
+  font-weight: bold; /* Testo in grassetto */
+  margin-top: 10px; /* Spazio sopra al pulsante */
+}
+
+.card-body .btn-success:hover {
+  background-color: #3cb371; /* Verde più chiaro (MediumSeaGreen) */
+  border-color: gold; /* Bordo dorato al passaggio del mouse */
+}
