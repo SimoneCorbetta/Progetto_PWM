@@ -37,7 +37,7 @@ const cardContainer = document.getElementById('card-container');
       // per poi aggiungerla nel mio div cardContainer
       const { characters } = await res.json();
       characters.forEach(character => {
-        const card = createCharacterCard(character, true, false);
+        const card = createCharacterCard(character, true, false, false);
         cardContainer.appendChild(card);
       });
     } catch (err) {

@@ -512,7 +512,8 @@ app.post('/api/richiesta/:id/rispondi', async (req, res) => {
   }
 });
 
-//rotta per verificare che la cartaOfferta dal primo utente (mittente), non sia gia' in possesso dal secondo utente (destinatario)
+//rotta per verificare che la cartaOfferta dal primo utente (mittente), non sia gia' 
+// in possesso dal secondo utente (destinatario)
 app.post('/verifica-possesso', async (req, res) => {
   try {
     const { userId, cartaOffertaId } = req.body;
@@ -524,6 +525,35 @@ app.post('/verifica-possesso', async (req, res) => {
     res.json({ possiedeCarta: possiede });
   } catch (err) {
     console.error(err);
+    res.status(500).json({ error: 'Errore del server' });
+  }
+});
+
+// Vendi una carta duplicata
+app.post('/album/vendi', async (req, res) => {
+  const { userId, characterId } = req.body;
+
+  try {
+    const user = await User.findById(userId);
+    if (!user) return res.status(404).json({ error: 'Utente non trovato' });
+    const album = await Album.findOne( {owner: userId} );
+
+    // Rimuove la carta dai doppioni
+    const initialLength = album.duplicatesAlbum.length;
+    album.duplicatesAlbum = album.duplicatesAlbum.filter(card => card.id !== characterId);
+
+    if (album.duplicatesAlbum.length === initialLength)
+      return res.status(404).json({ error: 'Carta non trovata nei doppioni' });
+
+    // Aggiunge 0.1 credit
+    user.credits = (user.credits || 0) + 0.1;
+
+    await user.save();
+    await album.save();
+
+    res.json({ message: 'Carta venduta con successo. +0.1 credit', newCredits: user.credits });
+  } catch (err) {
+    console.error('Errore nella vendita:', err);
     res.status(500).json({ error: 'Errore del server' });
   }
 });

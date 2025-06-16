@@ -92,8 +92,23 @@ select {
     cursor: pointer; /* Cambia il cursore al passaggio */
 }
 
+.torna_indietro {
+  font-family: 'MedievalSharp', cursive; /* Font coerente con il resto del layout */
+  background-color: #6b4226; /* Sfondo marrone */
+  color: #fff; /* Testo bianco */
+  border: none; /* Nessun bordo */
+  padding: 8px 14px; /* Spaziatura interna: 8px sopra/sotto, 14px laterali */
+  cursor: pointer; /* Cursore a forma di mano */
+  border-radius: 6px; /* Angoli arrotondati */
+  transition: background-color 0.3s ease; /* Transizione fluida per il colore di sfondo */
+}
+
+.torna_indietro:hover {
+  background-color: #4a2e1d; /* Cambia colore al passaggio del mouse */
+}
+
 /* Bottone */
-button {
+#submit {
     width: 90%; /* Larghezza responsiva */
     max-width: 300px; /* Larghezza massima */
     padding: 10px; /* Spaziatura interna */
@@ -110,7 +125,7 @@ button {
     display: block; /* Visualizzazione a blocco */
 }
 
-button:hover {
+#submit:hover {
     background-color: #4a2e1d; /* Sfondo più scuro al passaggio del mouse */
 }
 

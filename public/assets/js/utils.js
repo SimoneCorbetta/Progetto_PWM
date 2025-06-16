@@ -15,7 +15,7 @@ async function fetchCurrentUser() {
 //funzione per creare la carta, i parametri sono: character (personaggio);
 //showAddButton, ovvero booleano (se true fa visualizzare il pulsante per aggiungere questo personaggio nel mio album principale o doppioni);
 //showInfoButton, anch'esso booleano per far visualizzare questo pulsante nel div della card
-function createCharacterCard(character, showAddButton = false, showInfoButton = true) {
+function createCharacterCard(character, showAddButton = false, showInfoButton = true, showVendiButton = false) {
     const col = document.createElement('div');
     col.className = 'col-md-4 mb-4';
   
@@ -27,6 +27,7 @@ function createCharacterCard(character, showAddButton = false, showInfoButton = 
           <p class="card-text">${character.house || 'Nessuna casata'}</p>
           ${showAddButton ? `<button class="btn btn-success add-to-album">Aggiungi all'album</button>` : ''}
           ${showInfoButton ? `<button class="btn btn-success view-data-figurina">Visualizza altre info</button>` : ''}
+          ${showVendiButton ? `<button class="btn btn-success vendi-figurina">Vendi figuriina</button>` : ''}
         </div>
       </div>
     `;
@@ -49,6 +50,33 @@ function createCharacterCard(character, showAddButton = false, showInfoButton = 
           showModalWithCharacterData(data);
         } catch (error) {
           console.error('Errore durante il fetch del personaggio:', error);
+        }
+      });
+    }
+
+    if(showVendiButton){
+      col.querySelector('.vendi-figurina').addEventListener('click', async () => {
+        try {
+          fetch('/album/vendi', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              userId,
+              characterId: character.id
+            })
+          })
+          .then(res => res.json())
+          .then(data => {
+            if (data.error) return alert(data.error);
+            alert(data.message);
+
+            // Rimuove la card venduta dal DOM
+            const cardElement = document.querySelector(`[data-id="${characterId}"]`);
+            if (cardElement) cardElement.remove();
+
+          })
+        } catch (error) {
+          console.error('Errore durante la vendita per crediti della figurina:', error);
         }
       });
     }

@@ -217,3 +217,16 @@ p span#credit-value,
 p:has(#credit-value) {
   color: #000000; /* Valore dei crediti in nero */
 }
+
+#logout {
+    padding: 10px 20px;
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#logout-button:hover {
+    background-color: #c0392b;
+}

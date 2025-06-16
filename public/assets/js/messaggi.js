@@ -78,7 +78,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     //funzione per l'accettazione o il rifiuto della richiesta di scambio
-    //in cui modifico alcuni dati riguardo la richiesta (esempio: da scambio diventa di tipo testo, perche' e' solo di conferma o rifiuto, ...)
+    //in cui modifico alcuni dati riguardo la richiesta (esempio: da scambio 
+    //diventa di tipo testo, perche' e' solo di conferma o rifiuto, ...)
     //e la invio da utente2 a utente1, invece prima era il contrario
     function rispondiARichiesta(idRichiesta, accettato) {
       fetch(`/api/richiesta/${idRichiesta}/rispondi`, {

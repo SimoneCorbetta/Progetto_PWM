@@ -28,7 +28,7 @@ async function loadAlbumFromServer() {
     }
 
     characters.forEach(character => {
-      const card = createCharacterCard(character, false, true);
+      const card = createCharacterCard(character, false, true, false);
       album.appendChild(card);
     });
   } catch (err) {
@@ -50,7 +50,7 @@ async function loadDuplicatesFromServer() {
     }
 
     characters.forEach(character => {
-      const card = createCharacterCard(character, false, true);
+      const card = createCharacterCard(character, false, true, true);
 
       // Aggiungi pulsante per lo scambio
       const scambiaBtn = document.createElement('button');
